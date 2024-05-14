@@ -17,10 +17,11 @@ function backspace() {
 
 function calculate() {
     try {
-        let result = eval(display.value);
+        let equation = display.value;
+        let result = eval(equation);
         display.value = result;
         if (!isNaN(result)) {
-            history.innerHTML += `<div class="history-item">${display.value}</div>`;
+            history.innerHTML += `<div class="history-item" data-equation="${equation}" data-result="${result}">${equation} = ${result}</div>`;
         }
     } catch (error) {
         display.value = 'Error';
@@ -39,7 +40,8 @@ function toggleHistory() {
 // Selecting equation from history and putting it back into the calculator
 history.addEventListener('click', function(event) {
     if (event.target.classList.contains('history-item')) {
-        let equation = event.target.textContent;
+        let equation = event.target.getAttribute('data-equation');
+        let result = event.target.getAttribute('data-result');
         display.value = equation;
     }
 });
